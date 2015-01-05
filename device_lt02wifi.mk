@@ -8,9 +8,6 @@ $(call inherit-product-if-exists, vendor/samsung/lt02wifi/lt02wifi-vendor.mk)
 DEVICE_PACKAGE_OVERLAYS += device/samsung/lt02wifi/overlay
 
 # Set wifi-only before it's set by generic_no_telephony.mk
-PRODUCT_PROPERTY_OVERRIDES += \
-        ro.carrier=wifi-only
-		
 $(call inherit-product, build/target/product/full_base.mk)
 
 PRODUCT_CHARACTERISTICS := tablet
@@ -29,7 +26,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
     ro.bq.gpu_to_cpu_unsupported=1 \
     wifi.interface=wlan0 \
-    wifi.softap.interface=wlan0 \
     wifi.supplicant_scan_interval=30 \
     dalvik.vm.heapsize=128m \
     ro.carrier=wifi-only
@@ -63,13 +59,15 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/init.recovery.pxa988.rc:root/init.recovery.pxa988.rc \
     $(LOCAL_PATH)/rootdir/init.pxa988.rc:root/init.pxa988.rc \
     $(LOCAL_PATH)/rootdir/init.pxa988.usb.rc:root/init.pxa988.usb.rc \
-    $(LOCAL_PATH)/rootdir/init.pxa988.tel.rc:root/init.pxa988.tel.rc
+    $(LOCAL_PATH)/rootdir/init.pxa988.tel.rc:root/init.pxa988.tel.rc \
+    $(LOCAL_PATH)/rootdir/init.wifi.rc:root/init.wifi.rc
 
 # Init files
 PRODUCT_PACKAGES += \
     fstab.pxa988 \
     init.pxa988.rc \
     init.pxa988.usb.rc \
+    init.wifi.rc \
     ueventd.pxa988.rc
     
 # uevent.rc
@@ -80,13 +78,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
 
-# Wifi
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
-
 # Product specific Packages
 PRODUCT_PACKAGES += \
-    libsecril-client
+    libsecril-client \
+    rfkill \
+    libMarvellWireless \
+    MarvellWirelessDaemon \
+    libwpa_client 
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -112,3 +110,7 @@ PRODUCT_PACKAGES += \
     librs_jni
 
 $(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
+$(call inherit-product-if-exists, vendor/marvell/generic/sd8787/FwImage/sd8787fw.mk)
+$(call inherit-product-if-exists, vendor/marvell/generic/sd8787/sd8787.mk)
+$(call inherit-product-if-exists, vendor/marvell/generic/sd8787/sd8787_modules.mk)
+

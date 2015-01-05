@@ -41,9 +41,6 @@ COMMON_GLOBAL_CFLAGS += -DNO_RGBX_8888
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 
-# Not Yet
-#TARGET_BOARD_INFO_FILE := device/samsung/lt02wifi/board-info.txt
-
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/samsung/lt02
 TARGET_KERNEL_CONFIG := kerNole_lt02_defconfig
@@ -51,17 +48,6 @@ BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000
 BOARD_KERNEL_PAGESIZE := 2048
-# TARGET_PREBUILT_KERNEL := 
-
-#Kernel Modules
-#SAMSUNG_MODULES:
-#	make -C kernel/samsung/lt02_modules/ clean_modules KERNELDIR=$(KERNEL_OUT) CROSS_COMPILE=$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-
-#	make -C kernel/samsung/lt02_modules/ modules CFLAGS_MODULE=-fno-pic KERNELDIR=$(KERNEL_OUT) CROSS_COMPILE=$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-
-#	mkdir -p out/target/product/lt02wifi/recovery/root/lib/modules
-#	cp $(KERNEL_OUT)/drivers/exfat/*.ko out/target/product/lt02wifi/recovery/root/lib/modules/
-#	find kernel/samsung/lt02_modules/ -type f -name *.ko -exec cp {} $(KERNEL_MODULES_OUT) \;
-
-#TARGET_KERNEL_MODULES += SAMSUNG_MODULES
     
 # Partitions
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -78,7 +64,6 @@ BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 TARGET_RECOVERY_FSTAB := device/samsung/lt02wifi/rootdir/fstab.pxa988
 RECOVERY_FSTAB_VERSION := 2
-#TARGET_RECOVERY_INITRC := device/samsung/lt02wifi/recovery/root/init.recovery.rc
 BOARD_RECOVERY_SWIPE := true
 
 # Init
@@ -91,26 +76,19 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_MRVL := true
 MRVL_WIRELESS_DAEMON_API := true
 
-
 #WiFi
-#BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-#WPA_SUPPLICANT_VERSION := VER_0_8_X
-#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_mrvl8787
-#BOARD_HOSTAPD_DRIVER := NL80211
-#BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_mrvl8787
-#BOARD_WLAN_DEVICE := mrvl8787
-BOARD_WLAN_VENDOR := MRVL
-WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/sd8xxx.ko"
-WIFI_DRIVER_MODULE_NAME	:= "sd8xxx"
-WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/firmware/mrvl/sd8777_uapsta.bin cfg80211_wext=12 sta_name=wlan uap_name=wlan wfd_name=p2p fw_name=mrvl/sd8777_uapsta.bin"
-WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/sd8xxx/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA := "/system/etc/firmware/mrvl/sd8777_uapsta.bin"
-WIFI_DRIVER_FW_PATH_AP := "/system/etc/firmware/mrvl/sd8777_uapsta.bin"
-WIFI_DRIVER_FW_PATH_P2P := "/system/etc/firmware/mrvl/sd8777_uapsta.bin"
-WIFI_SDIO_IF_DRIVER_MODULE_PATH := "/system/lib/modules/mlan.ko"
-WIFI_SDIO_IF_DRIVER_MODULE_NAME := "mlan"
-WIFI_SDIO_IF_DRIVER_MODULE_ARG := ""
-MRVL_WIRELESS_DAEMON_API := true
+BOARD_HAVE_MARVELL_WIFI := true
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_mrvl
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_mrvl
+BOARD_WLAN_DEVICE := mrvl
+WIFI_DRIVER_FW_PATH_PARAM := "/proc/mwlan/config"
+WIFI_DRIVER_FW_PATH_STA := "/system/etc/firmware/mrvl/sd8787_uapsta.bin"
+WIFI_DRIVER_FW_PATH_AP := "/system/etc/firmware/mrvl/sd8787_uapsta.bin"
+WIFI_DRIVER_FW_PATH_P2P := "/system/etc/firmware/mrvl/sd8787_uapsta.bin"
+CONFIG_CTRL_IFACE := true
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 17
@@ -121,16 +99,13 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/f_mass_storage/lun%d/
 # Graphics
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/samsung/lt02wifi/configs/egl.cfg
-#BOARD_EGL_NEEDS_LEGACY_FB := true
-#COMMON_GLOBAL_CFLAGS += -DWORKAROUND_BUG_10194508
-#TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
-VSYNC_EVENT_PHASE_OFFSET_NS := 0
-BOARD_HAVE_PIXEL_FORMAT_INFO := true
-BOARD_USE_BGRA_8888 := true
-BOARD_USE_MHEAP_SCREENSHOT := true
+BOARD_EGL_NEEDS_LEGACY_FB := true
+COMMON_GLOBAL_CFLAGS += -DWORKAROUND_BUG_10194508
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
+BUILD_WITH_ALSA_UTILS := true
 COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB -DMR1_AUDIO_BLOB
 BOARD_HAVE_PRE_KITKAT_AUDIO_BLOB := true
 
@@ -226,5 +201,3 @@ TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
 TW_MAX_BRIGHTNESS := 255
 TW_BRIGHTNESS_PATH := /sys/class/backlight/panel/brightness
-
-
