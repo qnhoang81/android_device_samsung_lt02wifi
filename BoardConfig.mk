@@ -44,7 +44,8 @@ TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a9 -mfpu=neon -mfloat-abi=softfp
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/samsung/lt02
 TARGET_KERNEL_CONFIG := kerNole_lt02_defconfig
-BOARD_KERNEL_CMDLINE := 
+
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000
 BOARD_KERNEL_PAGESIZE := 2048
