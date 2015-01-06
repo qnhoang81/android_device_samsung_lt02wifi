@@ -38,6 +38,10 @@ DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb \
     sys.disable_ext_animation=1
 
+# permissions that we supported
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml
+
 # Charger
 PRODUCT_PACKAGES += \
     charger \
@@ -59,15 +63,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/init.recovery.pxa988.rc:root/init.recovery.pxa988.rc \
     $(LOCAL_PATH)/rootdir/init.pxa988.rc:root/init.pxa988.rc \
     $(LOCAL_PATH)/rootdir/init.pxa988.usb.rc:root/init.pxa988.usb.rc \
-    $(LOCAL_PATH)/rootdir/init.pxa988.tel.rc:root/init.pxa988.tel.rc \
-    $(LOCAL_PATH)/rootdir/init.wifi.rc:root/init.wifi.rc
+    $(LOCAL_PATH)/rootdir/init.pxa988.tel.rc:root/init.pxa988.tel.rc
 
 # Init files
 PRODUCT_PACKAGES += \
     fstab.pxa988 \
     init.pxa988.rc \
     init.pxa988.usb.rc \
-    init.wifi.rc \
     ueventd.pxa988.rc
     
 # uevent.rc
@@ -76,7 +78,8 @@ PRODUCT_COPY_FILES += \
 
 # Audio
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/configs/audio_effects.conf:system/etc/audio_effects.conf
 
 # Product specific Packages
 PRODUCT_PACKAGES += \
